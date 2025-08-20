@@ -20,10 +20,11 @@ export default async function handler(req, res) {
   try {
     await transporter.sendMail({
       from: email,
-      to: process.env.EMAIL_USER,  // where you want to receive messages
-      subject: `New Message from ${name}`,
-      text: message,
+      to: process.env.EMAIL_USER,
+      subject: `New Message from ${name}: ${subject}`,
+      text: `From: ${name} <${email}>\n\n${message}`,
     });
+
 
     res.status(200).json({ success: true, message: "Email sent successfully!" });
   } catch (error) {
