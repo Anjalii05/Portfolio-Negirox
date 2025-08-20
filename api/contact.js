@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Only POST requests allowed" });
   }
 
-  const { name, email, message } = req.body;
+  const { name, email,submit, message } = req.body;
 
   // Create transporter (using Gmail example)
   let transporter = nodemailer.createTransport({
