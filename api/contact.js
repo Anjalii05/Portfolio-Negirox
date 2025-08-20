@@ -1,4 +1,3 @@
-// api/contact.js
 import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
@@ -6,14 +5,13 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Only POST requests allowed" });
   }
 
-  const { name, email,submit, message } = req.body;
+  const { name, email, subject, message } = req.body;
 
-  // Create transporter (using Gmail example)
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: process.env.EMAIL_USER,  // your Gmail
-      pass: process.env.EMAIL_PASS   // App password
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
@@ -25,9 +23,9 @@ export default async function handler(req, res) {
       text: `From: ${name} <${email}>\n\n${message}`,
     });
 
-
     res.status(200).json({ success: true, message: "Email sent successfully!" });
   } catch (error) {
+    console.error("Email Error:", error); // <--- important for logs
     res.status(500).json({ success: false, error: error.message });
   }
 }
